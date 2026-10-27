@@ -1,6 +1,7 @@
 package seminar.dataflow.zeroanalysis;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -63,8 +64,20 @@ public class ZeroAbstractState {
      */
     public ZeroAbstractState union(ZeroAbstractState another) {
         ZeroAbstractState result = new ZeroAbstractState();
-        // TODO: IMPLEMENT
-        throw new UnsupportedOperationException("Operation is not implemented yet.");
+        Set<String> variables = new HashSet<>(getDefinedVariables());
+        variables.addAll(another.getDefinedVariables());
+        for (String variable : variables) {
+            if (this.hasValue(variable) && another.hasValue(variable)) {
+                result.setValue(variable, this.getValue(variable).merge(another.getValue(variable)));
+            }
+            else if (this.hasValue(variable)) {
+                result.setValue(variable, this.getValue(variable));
+            }
+            else {
+                result.setValue(variable, another.getValue(variable));
+            }
+        }
+        return result;
     }
 
     /**

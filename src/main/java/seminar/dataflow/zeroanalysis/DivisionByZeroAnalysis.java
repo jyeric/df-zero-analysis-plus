@@ -1,5 +1,8 @@
 package seminar.dataflow.zeroanalysis;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import pascal.taie.analysis.dataflow.analysis.AbstractDataflowAnalysis;
 import pascal.taie.analysis.dataflow.fact.DataflowResult;
 import pascal.taie.analysis.dataflow.solver.Solver;
@@ -7,9 +10,6 @@ import pascal.taie.analysis.graph.cfg.CFG;
 import pascal.taie.ir.exp.Var;
 import pascal.taie.ir.stmt.DefinitionStmt;
 import pascal.taie.ir.stmt.Stmt;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This class implements a may forward dataflow analysis that detects if a division by zero is possible in a given
@@ -104,8 +104,9 @@ public class DivisionByZeroAnalysis extends AbstractDataflowAnalysis<Stmt, ZeroA
      */
     @Override
     public void meetInto(ZeroAbstractState fact, ZeroAbstractState target) {
-        // TODO: IMPLEMENT
-        throw new UnsupportedOperationException("Operation is not implemented yet.");
+        ZeroAbstractState merged = target.union(fact);
+        target.clear();
+        target.copy(merged);
     }
 
     /**
