@@ -79,7 +79,7 @@ public enum ZeroAbstractValue {
         else if (this.equals(NEGATIVE)) {
             switch (another) {
                 case NEGATIVE: return NEGATIVE;
-                case NON_NEGATIVE: return NEGATIVE;
+                case NON_POSITIVE: return NEGATIVE;
                 default: return TOP;
             }
         }
@@ -122,17 +122,14 @@ public enum ZeroAbstractValue {
             return BOTTOM;
         }
         else if (this.equals(ZERO)) {
-            switch (another) {
-                case NEGATIVE: return ZERO;
-                case POSITIVE: return ZERO;
-                case NOT_ZERO: return ZERO;
-                default: return TOP;
-            }
+            return ZERO;
         }
         else if (this.equals(NEGATIVE) || this.equals(NON_POSITIVE)) {
             switch (another) {
                 case NEGATIVE: return NON_NEGATIVE;
                 case POSITIVE: return NON_POSITIVE;
+                case NON_NEGATIVE: return NON_POSITIVE;
+                case NON_POSITIVE: return NON_NEGATIVE;
                 default: return TOP;
             }
         }
@@ -140,6 +137,8 @@ public enum ZeroAbstractValue {
             switch (another) {
                 case NEGATIVE: return NON_POSITIVE;
                 case POSITIVE: return NON_NEGATIVE;
+                case NON_NEGATIVE: return NON_NEGATIVE;
+                case NON_POSITIVE: return NON_POSITIVE;
                 default: return TOP;
             }
         }
